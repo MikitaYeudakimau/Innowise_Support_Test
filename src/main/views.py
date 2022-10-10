@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.decorators import action
+from rest_framework import authentication
 from .models import Ticket, Answer, Status
 from .serializers import *
 from .permissions import IsOwnerOrAdmin
+from .tasks import send_email_by_change
 
 
 class StatusAPIList(generics.ListCreateAPIView):
@@ -22,6 +23,8 @@ class StatusAPIRetrieveDestroy(generics.RetrieveDestroyAPIView):
 class TicketAPIList(generics.ListCreateAPIView):
     serializer_class = TicketSerializer
     permission_classes = (IsAuthenticated,)
+
+    # authentication_classes = [authentication.TokenAuthentication, ]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, status=Status.objects.get(status="Unsolved"))
@@ -44,6 +47,13 @@ class AnswerAPIList(generics.ListCreateAPIView):
     permission_classes = (IsAdminUser,)
 
     def perform_create(self, serializer):
+        ticket = Ticket.objects.get(text=self.request.data['ticket'])
+        new_status = self.request.data['status']
+        answer = self.request.data['text']
+        if ticket.status != new_status:
+            ticket_user = User.objects.get(username=ticket.user)
+            send_email_by_change.delay(ticket.text, new_status, answer, ticket_user.email)
+        print(ticket.status)
         serializer.save(user=self.request.user)
 
 

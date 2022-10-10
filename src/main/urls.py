@@ -3,7 +3,6 @@ from django.urls import path, include
 from .views import *
 
 urlpatterns = [
-    path('drf-auth/', include('rest_framework.urls')),
     path('status-list/', StatusAPIList.as_view(), name="status-list"),
     path('status-list/<int:pk>/', StatusAPIRetrieveDestroy.as_view(), name="status-detail"),
     path("ticket-list/", TicketAPIList.as_view(), name="ticket-list"),

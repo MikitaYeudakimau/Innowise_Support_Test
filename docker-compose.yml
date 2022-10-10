@@ -1,0 +1,28 @@
+version: "3.10"
+
+services:
+  redis:
+    image: redis
+    restart: always
+
+  support:
+    restart: always
+    build:
+      context: ./
+    ports:
+      - "8000:8000"
+    command: python ./src/manage.py runserver 0.0.0.0:8000
+
+  celery:
+    restart: always
+    build: ./
+    command: celery --workdir=./src -A src worker
+
+  sqlite3:
+    image: keinos/sqlite3:latest
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./src/db.sqlite3:/app/src/db.sqlite3
+
