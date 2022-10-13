@@ -42,8 +42,7 @@ class TicketDetailSerializer(serializers.ModelSerializer):
 class AnswerSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
     created_at = serializers.DateTimeField(read_only=True, format="%Y-%m-%d %H:%M:%S")
-    ticket = serializers.SlugRelatedField(
-        queryset=Ticket.objects.exclude(status=Status.objects.get(status="Solved")), slug_field="text")
+    ticket = serializers.SlugRelatedField(queryset=Ticket.objects.exclude(status__status="Solved"), slug_field="text")
     status = serializers.SlugRelatedField(queryset=Status.objects.all(), slug_field='status')
 
     class Meta:

@@ -10,7 +10,7 @@ class Status(models.Model):
 
 
 class Ticket(models.Model):
-    text = models.TextField(blank=False)
+    text = models.TextField(blank=False,unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ticket_user')
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name='ticket_status')
@@ -28,14 +28,3 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.text
-
-
-
-# class Person(User):
-#     objects = models.Manager()
-#
-#     class Meta:
-#         proxy = True
-#
-#     def __str__(self):
-#         return self.username

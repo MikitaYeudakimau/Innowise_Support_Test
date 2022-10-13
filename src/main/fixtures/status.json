@@ -1,0 +1,23 @@
+[
+  {
+    "model": "main.status",
+    "pk": 1,
+    "fields": {
+      "status": "Solved"
+    }
+  },
+  {
+    "model": "main.status",
+    "pk": 2,
+    "fields": {
+      "status": "Unsolved"
+    }
+  }
+  {
+    "model": "main.status",
+    "pk": 3,
+    "fields": {
+      "status": "Freezed"
+    }
+  }
+]
