@@ -23,7 +23,7 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/drf-auth/', include('rest_framework.urls')),
+    path('drf-auth/', include('rest_framework.urls')),
     path("api/v1/", include('main.urls')),
     re_path(r'^auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.jwt')),
