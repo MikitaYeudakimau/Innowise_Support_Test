@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import authentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Ticket, Answer, Status
 from .serializers import *
 from .permissions import IsOwnerOrAdmin
@@ -23,8 +24,7 @@ class StatusAPIRetrieveDestroy(generics.RetrieveDestroyAPIView):
 class TicketAPIList(generics.ListCreateAPIView):
     serializer_class = TicketSerializer
     permission_classes = (IsAuthenticated,)
-
-    # authentication_classes = [authentication.TokenAuthentication, ]
+    authentication_classes = (JWTAuthentication,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, status=Status.objects.get(status="Unsolved"))
@@ -39,6 +39,8 @@ class TicketAPIRetrieveDestroy(generics.RetrieveDestroyAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketDetailSerializer
     permission_classes = (IsOwnerOrAdmin,)
+    authentication_classes = (JWTAuthentication,)
+
 
 
 class AnswerAPIList(generics.ListCreateAPIView):
