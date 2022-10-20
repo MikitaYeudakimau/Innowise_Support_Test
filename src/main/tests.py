@@ -50,6 +50,7 @@ class AccountTest(TestMixin):
     """
     Tests for creation new accounts
     """
+
     def test_create_account(self):
         """
         Ensure create new account
@@ -69,6 +70,7 @@ class JWTAuthenticationTest(TestMixin):
     """
     Test for normal operation for JWTAuthentication accessing ticket-list page
     """
+
     def test_get_ticket_list_authenticated(self):
         """
         Test getting ticket list witt JWT authentication
@@ -90,16 +92,25 @@ class JWTAuthenticationTest(TestMixin):
 
 class StatusTest(TestMixin):
     """
-    Test status page for adding new statuses
+    Test status page for prohibiting access not-admin user adding new statuses
     """
     status_data = {"status": "status"}
+
+    def test_prohibit_access(self):
+        """
+        Test prohibiting access for non-admin user
+        """
+        self.create_account()
+        self.client.login(username="testuser", password="Asdfqwe123")
+        response = self.client.get(self.status_list_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_add_status(self):
         """
         Test addition status using session_authenticate
         """
         self.create_admin_account()
-        self.client.login(username="testuser",password="Asdfqwe123")
+        self.client.login(username="testuser", password="Asdfqwe123")
         response = self.client.post(self.status_list_url, self.status_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Status.objects.get(status="status").status, "status")
