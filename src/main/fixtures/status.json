@@ -12,7 +12,7 @@
     "fields": {
       "status": "Unsolved"
     }
-  }
+  },
   {
     "model": "main.status",
     "pk": 3,
