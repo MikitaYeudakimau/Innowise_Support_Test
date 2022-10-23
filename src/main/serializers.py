@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Ticket, Answer, Status, User
 
+from .models import Answer, Status, Ticket
 
 
 #                      Status
@@ -37,7 +37,6 @@ class TicketDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'text', 'created_at', 'status', 'answer']
 
 
-
 #                            Answer
 class AnswerSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
@@ -50,7 +49,7 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'text', 'created_at', 'status', 'ticket']
 
     def create(self, validated_data):
-        ticket= Ticket.objects.get(text=validated_data['ticket'])
+        ticket = Ticket.objects.get(text=validated_data['ticket'])
         ticket.status = validated_data['status']
         ticket.save()
         return Answer.objects.create(**validated_data)

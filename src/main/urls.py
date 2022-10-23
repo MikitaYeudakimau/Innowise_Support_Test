@@ -1,6 +1,8 @@
-from django.contrib import admin
-from django.urls import path, include
-from .views import *
+from django.urls import path
+
+from .views import (
+    AnswerAPIList, AnswerAPIUpdateDestroy, StatusAPIList, StatusAPIRetrieveDestroy, TicketAPIList,
+    TicketAPIRetrieveDestroy)
 
 urlpatterns = [
     path('status-list/', StatusAPIList.as_view(), name="status-list"),

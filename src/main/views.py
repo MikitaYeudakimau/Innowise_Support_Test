@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from rest_framework import generics, viewsets
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework import authentication
+from rest_framework import generics
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .models import Ticket, Answer, Status
-from .serializers import *
+
+from .models import Answer, Status, Ticket, User
 from .permissions import IsOwnerOrAdmin
+from .serializers import (
+    AnswerDetailSerializer, AnswerSerializer, StatusSerializer, TicketDetailSerializer, TicketSerializer)
 from .tasks import send_email_by_change
 
 
@@ -40,7 +40,6 @@ class TicketAPIRetrieveDestroy(generics.RetrieveDestroyAPIView):
     serializer_class = TicketDetailSerializer
     permission_classes = (IsOwnerOrAdmin,)
     authentication_classes = (JWTAuthentication,)
-
 
 
 class AnswerAPIList(generics.ListCreateAPIView):

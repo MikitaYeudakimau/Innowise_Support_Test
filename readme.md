@@ -15,7 +15,7 @@ ___
 
 1) You need to have installed Docker, Docker-compose and PostgreSQL with created DB.
 2) Clone Git repo:
-> $ git clone https://github.com/MikitaYeudakimau/celery_training_support.git .
+> $ git clone https://github.com/MikitaYeudakimau/Innowise_Support_Test.git .
 3) Change email settings.
 4) Update db settings in env.dev .
 5) Build the images and run containers:

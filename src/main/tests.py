@@ -1,7 +1,8 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from .models import *
+
+from .models import Status, User
 
 
 class TestMixin(APITestCase):
